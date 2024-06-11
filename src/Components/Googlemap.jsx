@@ -75,10 +75,14 @@ import { Map, Marker } from "pigeon-maps";
 
 export default function MyMap() {
   var name = localStorage.getItem('companyInfo');
-  let companyInfo=JSON.parse(name)
-      console.log("aijaj", companyInfo)
+  let companyInfo;
+  if (name){
+    companyInfo=JSON.parse(name)
+    console.log("aijaj", companyInfo)
+  }
 
-  const add = [Math.abs(companyInfo.latitude), Math.abs(companyInfo.longitude)];
+
+  const add = [Math.abs(companyInfo?.latitude), Math.abs(companyInfo?.longitude)];
   console.log(add);
   return (
     <Map height={350} defaultCenter={add} defaultZoom={5}>
