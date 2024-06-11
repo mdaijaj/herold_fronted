@@ -1,2 +1,1 @@
-# herold_fronted
-reactjs
+# gradimo-temp
