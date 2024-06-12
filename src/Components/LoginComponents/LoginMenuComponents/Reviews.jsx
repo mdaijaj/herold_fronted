@@ -15,7 +15,6 @@ export const Reviews = () => {
         const getGradimoReviewPage = async () => {
             await axios.get(`${baseBackendRoute}/api/v1/pages/reviews-page/`)
                 .then((res) => {
-                    console.log(res);
                     setGradimoReviewPage(res.data);
                 })
                 .catch((err) => {
@@ -64,7 +63,6 @@ export const Reviews = () => {
         const getReviewPageList = async () => {
             await axios.get(`${baseBackendRoute}/api/v1/blogs/reviews-data/`)
                 .then((res) => {
-                    console.log(res);
                     setReviewPageList(res.data);
                 })
                 .catch((err) => {

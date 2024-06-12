@@ -50,7 +50,7 @@ export const CompanyAZMain = () => {
         else {
             setFirstShow(true)
         }
-        if (inputValue !== '') {
+        if (inputValue.length>=3) {
             const filteredList = await companyList.filter(company =>
                 company.toLowerCase().startsWith(inputValue.toLowerCase())
             );
@@ -78,7 +78,7 @@ export const CompanyAZMain = () => {
         else {
             setSecondShow(true)
         }
-        if (inputValue !== '') {
+        if (inputValue.length>=3) {
             const filteredList = await sugCityList?.filter(company =>
                 company?.toLowerCase().startsWith(inputValue?.toLowerCase())
             );
@@ -92,14 +92,29 @@ export const CompanyAZMain = () => {
             );
 
 
-            setFilteredCityList(filteredList);
-            setFilteredDistrictList(anotherFilteredList);
-            setFilteredZipCodeList(anotherOtherFilteredList);
+           
+             // Combine the lists
+             const combinedList = [...filteredList, ...anotherFilteredList, ...anotherOtherFilteredList];
 
-        }
-        else {
-        }
-
+             // Create a Set to remove duplicates and then convert it back to an array
+             const uniqueList = Array.from(new Set(combinedList));
+ 
+             // Separate the unique list back into their respective categories if needed
+             const uniqueCityList = uniqueList.filter(item => filteredList.includes(item));
+             const uniqueDistrictList = uniqueList.filter(item => anotherFilteredList.includes(item));
+             const uniqueZipCodeList = uniqueList.filter(item => anotherOtherFilteredList.includes(item));
+ 
+             // Set the unique lists to state
+             setFilteredCityList(uniqueCityList);
+             setFilteredDistrictList(uniqueDistrictList);
+             setFilteredZipCodeList(uniqueZipCodeList);
+ 
+         }
+         else {
+             setFilteredCityList([]);
+             setFilteredDistrictList([]);
+             setFilteredZipCodeList([]);
+         }
     }
     const { alpha } = useParams();
     const Alphabets = [
