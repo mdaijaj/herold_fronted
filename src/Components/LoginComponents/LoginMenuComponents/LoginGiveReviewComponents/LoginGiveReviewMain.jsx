@@ -12,7 +12,6 @@ export const LoginGiveReviewMain = () => {
     const [vis_3, setVis_3] = useState(false);
     const [vis_4, setVis_4] = useState(false);
     const [vis_5, setVis_5] = useState(false);
-    const [visible, setVisible] = useState(false);
     const [total, setTotal] = useState(0.0);
     const [count, setCount] = useState(0);
     const [first, setFirst] = useState(0);
@@ -34,19 +33,35 @@ export const LoginGiveReviewMain = () => {
     const [recommendValue, setRecommendValue] = useState('');
     const [title, setTitle] = useState('');
     const [rating, setRating] = useState('');
+    const [visible, setVisible] = useState(false);
     const [recommend, setRecommend] = useState('');
     const [agree, setAgree] = useState(false);
     const { review } = useParams();
-
+    const [errors, setErrors] = useState({});
+    
     const iframeRef = useRef(null);
 
 
-    const sendDataToIframe = (da) => {
-        console.log("iframeRef", iframeRef)
-        if (iframeRef.current) {
-            iframeRef.current.contentWindow.postMessage(da, '*');
-        }
-    };
+ // Validate the form fields
+ const validate = () => {
+    let formErrors = {};
+    if (!title) formErrors.title = 'Title is required';
+    if (!rating) formErrors.rating = 'Rating is required';
+    if (!agree) formErrors.agree = 'You must agree to the guidelines';
+    return formErrors;
+  };
+
+  // Send data to iframe
+  const sendDataToIframe = (da) => {
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length === 0) {
+      // No errors, submit the form
+      iframeRef.current.contentWindow.postMessage(da, '*');
+    } else {
+      // Set errors to state to display them
+      setErrors(validationErrors);
+    }
+  };
 
     const handleRecommend = (b) => {
         if (b === "true") {
@@ -57,8 +72,22 @@ export const LoginGiveReviewMain = () => {
             console.log(typeof (b));
             setRecommendValue('No')
         }
-
     }
+
+    // Handle form submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length === 0) {
+            // iframeRef.current.contentWindow.postMessage(da, '*');
+        // No errors, submit the form
+        } else {
+        // Set errors to state to display them
+        setErrors(validationErrors);
+        }
+    };
+
+
     let data = {
         'company': specificCompanyInfo?.id,
         'quality': first,
@@ -148,7 +177,6 @@ export const LoginGiveReviewMain = () => {
                 <div class="subteaser rateCmp" id="rate_company">
                     <section class="container">
                         <div class="wrap" id="wrap2">
-                            {/* <form id="rating-form" action="https://www.herold.at/bewertungen/validateReview.json" method="post" enctype="multipart/form-data" novalidate="novalidate" data-tracked="true"> */}
                             <input name="mobile" value="false" type="hidden" data-tracked="true" />
                             <input name="sid" type="hidden" value="930595" data-tracked="true" />
                             <input name="provider" type="hidden" value="HEROLD" data-tracked="true" />
@@ -368,67 +396,49 @@ export const LoginGiveReviewMain = () => {
                                     </div>
                                 </section>
                             </div>
-                            <div class="reviewStep customBgrdColor customTxtColor">
-                                <section class="ratingDetail">
-                                    <h2 _msttexthash="484900" _msthash="71">How was your experience?</h2>
-                                    <div class="content with py">
-                                        <div class="row reviewInput">
-                                            <label class="forText" for="review-title" _msttexthash="337012" style={title === '' ? { display: 'none' } : {}} _msthash="72">Title of the review *</label>
-                                            <div class="validate-pos"></div>
-                                            <input value={title} onChange={(e) => { setTitle(e.target.value) }} class="form-control" placeholder="The most important facts in a nutshell (at least 5 characters)" name="title" id="review-title" type="text" data-minlength="5" maxlength="100" _mstplaceholder="1369238" _msthash="73" data-tracked="true" required/>
-                                        </div>
-                                        <div class="row reviewInput">
-                                            <label class="forText" for="review-text" _msttexthash="170456" _msthash="74" style={rating === '' ? { display: 'none' } : {}}>Your rating *</label>
-                                            <div class="validate-pos"></div>
-                                            <textarea class="form-control" value={rating} onChange={(e) => { setRating(e.target.value) }} placeholder="Please describe your experience with the company (at least 10 characters)" name="text" id="review-text" data-minlength="10" maxlength="4000" _mstplaceholder="3186508" _msthash="75" data-tracked="true" required></textarea>
-                                        </div>
-                                        {/* <div class="row reviewInput">
-                                            <label class="forRadio" for="recommended" _msttexthash="710996" _msthash="76">Do you recommend this company? *</label>
-                                            <div class="validate-pos"></div>
-                                            <div class="d-none d-md-block radio" onChange={(e) => { setRecommend(e.target.value) }}>
-                                                <label class="radioContainer">
-                                                    <font _mstmutation="1" _msttexthash="32058" _msthash="77">Yes </font>
-                                                    <input id="recommended_true" value="true" type="radio" name="recommended" data-tracked="true" />
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="radioContainer">
-                                                    <font _mstmutation="1" _msttexthash="18642" _msthash="78">No </font>
-                                                    <input id="recommended_false" value="false" type="radio" name="recommended" data-tracked="true" />
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
-                                            <div class="col-24 d-flex d-md-none justify-content-between" _msthidden="2">
-                                                <a id="recommended_btn_true" href="JavaScript:void(0)" data-tie="recommended_true" onClick={() => { setRecommendValue("Yes") }} class={recommendValue === "Yes" ? "btn-hbd blue" : "btn-hbd white"} _msttexthash="16822" _msthidden="1" _msthash="79">Yes</a>
-                                                <a id="recommended_btn_false" href="JavaScript:void(0)" data-tie="recommended_false" onClick={() => { setRecommendValue("No") }} className={recommendValue === "No" ? "btn-hbd blue" : "btn-hbd white"} _msttexthash="44187" _msthidden="1" _msthash="80">No</a>
-                                            </div>
-                                        </div> */}
-                                    </div>
-                                </section>
+                            <div className="reviewStep customBgrdColor customTxtColor"></div>
+                        <section className="ratingDetail">
+                        <h2>How was your experience?</h2>
+                        <div className="content with py">
+                            <div className="row reviewInput">
+                            <label className="forText" htmlFor="review-title" style={title === '' ? { display: 'none' } : {}}>
+                                Title of the review *
+                            </label>
+                            <div className="validate-pos"></div>
+                            <input
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className="form-control"
+                                placeholder="The most important facts in a nutshell (at least 5 characters)"
+                                name="title"
+                                id="review-title"
+                                type="text"
+                                data-minlength="5"
+                                maxLength="100"
+                                required
+                            />
+                            {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}
                             </div>
-                            {/* <div class="reviewStep customBgrdColor customTxtColor">
-                                <section class="ratingUpload multiFileUpload">
-                                    <h2 _msttexthash="615680" _msthash="81">Do you want to upload photos?</h2>
-                                    <div class="content with py">
-                                        <div class="row">
-                                            <span class="col-24 multipleFileUploadFieldContent">
-                                                <label for="multipleFileUploadField" class="d-block d-md-inline-block btn-hbd blue file_input_multiple_button customBtnColor" _msttexthash="211146" _msthash="82">Select photos</label>
-                                                <input id="multipleFileUploadField" type="file" name="userfile" multiple="multiple" accept="image/*" capture="camera" class="multipleFileUploadField sr-only" data-tracked="true" />
-                                            </span>
-                                            <div class="col-24 multiFileUploadContent" style={{ display: "none" }} _msthidden="3">
-                                                <div class="head" _msthidden="2">
-                                                    <h3 _msttexthash="210054" _msthidden="1" _msthash="83">Fotovorschau</h3>
-                                                    <p _msttexthash="6281353" _msthidden="1" _msthash="84">Hier können Sie einzelne Fotos löschen bzw. mit dem Button "Fotovorschau entfernen" alle Fotos löschen.</p>
-                                                </div>
-                                                <ul class="multipleUploadFiles fotoGrid" data-sid=""></ul>
-                                                <p class="uploadstatus block hideit"></p>
-                                                <button id="cancel_mulitple_photo_upload" type="button" class="btn-hbd blue customBtnColor" _msttexthash="498706" _msthidden="1" _msthash="85">Fotovorschau entfernen</button>
-                                                <p class="status block hideit"></p>
-                                            </div>
-                                            <div class="validate-pos"></div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div> */}
+                            <div className="row reviewInput">
+                            <label className="forText" htmlFor="review-text" style={rating === '' ? { display: 'none' } : {}}>
+                                Your rating *
+                            </label>
+                            <div className="validate-pos"></div>
+                            <textarea
+                                className="form-control"
+                                value={rating}
+                                onChange={(e) => setRating(e.target.value)}
+                                placeholder="Please describe your experience with the company (at least 10 characters)"
+                                name="text"
+                                id="review-text"
+                                data-minlength="10"
+                                maxLength="4000"
+                                required
+                            />
+                            {errors.rating && <span style={{ color: 'red' }}>{errors.rating}</span>}
+                            </div>
+                        </div>
+                        </section>
                             <div class="reviewStep customBgrdColor customTxtColor">
                                 <section class="ratingSubmit">
                                     <h2 _msttexthash="205725" _msthash="86">Submit Review</h2>
@@ -445,7 +455,7 @@ export const LoginGiveReviewMain = () => {
                                             <div>
                                                 <div class="row d-md-flex justify-content-center submitButtons">
                                                     <div>
-                                                        <button class="btn-hbd yellow" type="submit" onClick={() => { sendDataToIframe(data); setVisible(true) }} _msttexthash="184015" _msthash="91">Give Review</button>
+                                                        <button class="btn-hbd yellow" type="submit" onClick={() => { sendDataToIframe(data); setVisible(false) }} _msttexthash="184015" _msthash="91">Give Review</button>
                                                     </div>
                                                 </div>
                                                 <p class="status"></p>
@@ -456,7 +466,7 @@ export const LoginGiveReviewMain = () => {
                             </div>
                         </div>
                     </section>
-                </div >
+                </div>
                 <div
                     className={visible ? "modal fade show" : "modal fade"}
                     id="loginModal"
@@ -485,7 +495,7 @@ export const LoginGiveReviewMain = () => {
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     )
 }
