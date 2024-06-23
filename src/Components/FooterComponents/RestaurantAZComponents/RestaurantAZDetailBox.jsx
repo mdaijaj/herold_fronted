@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import Slider from "react-slick";
 import GoogleMapPage from '../../Googlemap'
+import  './product.css'
 
 export const RestaurantAZDetailsBox = () => {
     const [visible, setVisible] = useState(false);
@@ -259,7 +260,7 @@ export const RestaurantAZDetailsBox = () => {
                                                                                 <font style={{ verticalAlign: "inherit" }}>
                                                                                     <font style={{ verticalAlign: "inherit" }}>( </font>
                                                                                 </font>
-                                                                                {console.log("api...", specificCompanyInfo)}
+                                                                                {/* {console.log("api...", specificCompanyInfo)} */}
                                                                                 <font style={{ verticalAlign: "inherit" }}>
                                                                                     <font style={{ verticalAlign: "inherit" }}>{specificCompanyInfo?.company_rating?.length} </font>
                                                                                     <a
@@ -319,10 +320,6 @@ export const RestaurantAZDetailsBox = () => {
                                                             <font style={{ verticalAlign: "inherit" }}>{specificCompanyInfo?.company_name}</font>
                                                         </font>
                                                     </h1>
-                                                    <a
-                                                        href="#"
-                                                        className="business-info-section_subheading__bYJC-"
-                                                    >
                                                         {/* 
                                                         <font style={{ verticalAlign: "inherit" }}>
                                                             <font style={{ verticalAlign: "inherit" }}>
@@ -377,7 +374,6 @@ export const RestaurantAZDetailsBox = () => {
                                                                 </font>
                                                             </span>
                                                         </span>
-                                                    </a>
                                                     <p className="business-info-section_industry__1U1Bj">
                                                         <font style={{ verticalAlign: "inherit" }}>
                                                             <font style={{ verticalAlign: "inherit" }}>{specificCompanyInfo?.industry?.industry_name}</font>
@@ -590,6 +586,7 @@ export const RestaurantAZDetailsBox = () => {
                                     </div>
 
                                     <div className="image-gallery_element_multiple_images__3XP6j">
+                                    {console.log("kkkkkkk", specificCompanyInfo?.company_gallery) }
                                         {
                                             specificCompanyInfo?.company_gallery?.length > 0 ?
                                                 <Slider ref={setSliderRef} {...settings}>
@@ -608,18 +605,19 @@ export const RestaurantAZDetailsBox = () => {
                                                                             margin: 0
                                                                         }}
                                                                     >
+                                                                    {console.log("baseBackendRoute", baseBackendRoute)}
+
 
                                                                         <img
                                                                             title="Preview - Photo 1 of A - Barraca - Portuguese specialties"
                                                                             alt="Preview - Photo 1 of A - Barraca - Portuguese specialties"
                                                                             srcSet={`${baseBackendRoute}/media/${data?.photo_vedio}`}
-                                                                            src={`${baseBackendRoute}/media/${data?.photo_vedio}`}
                                                                             decoding="async"
                                                                             data-nimg="fill"
                                                                             className="image-gallery_element_image__1epLn"
 
                                                                             style={{
-                                                                                position: "absolute",
+                                                                                position: "relative",
                                                                                 inset: 0,
                                                                                 boxSizing: "border-box",
                                                                                 padding: 0,
@@ -729,7 +727,6 @@ export const RestaurantAZDetailsBox = () => {
                             </div>
 
 
-
                             <div className="mb_25">
                                 <div className="card-wrapper_element_card_wrapper_element__Bj1_s">
                                     <div className="details-page-section-heading_element_details_page_section_heading_element__2R4ba">
@@ -739,6 +736,7 @@ export const RestaurantAZDetailsBox = () => {
                                                     <img src="/gradimo_icons/products.png" width="25px" height="25px" alt="description" />
                                                 </div>
                                             </div>
+
                                             <h2 className="details-page-section-heading_element_heading__3UmDR">
                                                 <font style={{ verticalAlign: "inherit" }}>
                                                     <font style={{ verticalAlign: "inherit" }}>Products</font>
@@ -746,16 +744,18 @@ export const RestaurantAZDetailsBox = () => {
                                             </h2>
                                         </div>
                                     </div>
+                                    {console.log("king", specificCompanyInfo?.company_products)}
+
                                     {
                                         specificCompanyInfo?.company_products.length !== 0 ?
                                             specificCompanyInfo?.company_products?.map((data, index) => (
                                                 <div className="business-description_business_description_module__28e-F">
-                                                    <div className="business-description_text_wrapper__1C57P" id="ACTIVITIES">
-                                                        <h3 style={{ textAlign: 'center' }}>{data.product_name}   |    {data.offer_since}</h3>
+                                                    <div className="business-description_text_wrapper__1C57P product-container" id="ACTIVITIES">
+                                                        <h2 style={{ textAlign: 'center' }}>{data.product_name} | {data.offer_since}</h2>
                                                         <br />
-                                                        <img src={`${baseBackendRoute}/media/${data.image}`} style={{ display: 'block', margin: 'auto', height: '50%', width: '50%' }} />
+                                                        <img src={`${baseBackendRoute}/media/${data.image}`} className="product-image" alt={`${data.product_name}`} />
                                                         <br />
-                                                        <h4 style={{ textAlign: 'center' }}>For:  {data.currency_type} {data.price}</h4>
+                                                        <h3 style={{ textAlign: 'center' }}>For: {data.currency_type} {data.price}</h3>
                                                         <br />
                                                         <p
                                                             style={{ textAlign: 'center' }}
@@ -767,10 +767,7 @@ export const RestaurantAZDetailsBox = () => {
                                                             style={{ textAlign: 'center' }}
                                                             id="descriptionText"
                                                             dangerouslySetInnerHTML={{ __html: data?.description }}
-                                                        >
-
-                                                        </p>
-
+                                                        ></p>
                                                     </div>
                                                 </div>
                                             ))
@@ -779,6 +776,8 @@ export const RestaurantAZDetailsBox = () => {
                                     }
                                 </div>
                             </div>
+
+
 
                             <div className="mb_25">
                                 <div className="card-wrapper_element_card_wrapper_element__Bj1_s">

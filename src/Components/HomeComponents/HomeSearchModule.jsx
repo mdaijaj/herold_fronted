@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import AppContext from "../../AppContext";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
+import  './index.css'
 
 
 export const HomeSearchModule = () => {
@@ -288,10 +289,6 @@ export const HomeSearchModule = () => {
                                         <div class="search-controls_child__qjWU5">
                                             <div class="search-controls_autocomplete_location_wrapper__WxoUX">
                                                 <div class="auto-complete-location-input_autocomplete_input_wrapper__2C-62" style={{ height: "60px" }}>
-                                                    {/* <div style={secondInput.length > 0 ? { display: 'none' } : {}}>
-                                                        <span class="auto-complete-location-input_placeholder_text__2yPcl auto-complete-location-input_full_text__2CDDA" _msttexthash="727454" _msthash="153">Postcode, City, District, State</span>
-                                                        <span class="auto-complete-location-input_placeholder_text__2yPcl auto-complete-location-input_short_text__XwIJ2" _msttexthash="285142" _msthidden="1" _msthash="154">Zip code,city,district</span>
-                                                    </div> */}
                                                     <div class="input-group active">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text">

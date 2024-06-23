@@ -58,9 +58,6 @@ export const IndustrySearchSection = () => {
             );
             setIndustrySuggestion(anotherFilteredList);
             console.log("filter company");
-            console.log(companyList);
-            console.log(anotherFilteredList);
-            console.log(filteredList);
         }
         else {
         }

@@ -6,7 +6,7 @@ export const IndustryAZActiveSection = () => {
     const { industryListWithAlpha } = useContext(AppContext);
     const { alpha } = useParams();
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Number of items to display per page
+    const itemsPerPage = 10; // Number of items to display per page
 
     useEffect(() => {
         console.log("mmmm", industryListWithAlpha)
@@ -53,14 +53,16 @@ export const IndustryAZActiveSection = () => {
 
                     {/* Pagination */}
                     <div className="pagination">
-                        <button
+                    <button style={{margin: "15px"}}
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                         >
                             Previous
                         </button>
+
                         <span>{currentPage}</span>
-                        <button
+
+                        <button style={{margin: "15px"}}
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                         >

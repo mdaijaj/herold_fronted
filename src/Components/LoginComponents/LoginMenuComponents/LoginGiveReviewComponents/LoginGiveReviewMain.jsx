@@ -74,16 +74,33 @@ export const LoginGiveReviewMain = () => {
         }
     }
 
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (title.length < 5) {
+            newErrors.title = "Title must be at least 5 characters.";
+        }
+        if (rating.length < 10) {
+            newErrors.rating = "Rating must be at least 10 characters.";
+        }
+        if (!agree) {
+            newErrors.agree = "You must agree to the review guidelines.";
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
     // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const validationErrors = validate();
-        if (Object.keys(validationErrors).length === 0) {
-            // iframeRef.current.contentWindow.postMessage(da, '*');
-        // No errors, submit the form
+    const handleSubmit = () => {
+        let validformData=validateForm()
+        if (validformData) {
+            // Proceed with submission
+            sendDataToIframe({ title, rating, agree });
+            setVisible(false);
         } else {
-        // Set errors to state to display them
-        setErrors(validationErrors);
+            setVisible(true);
         }
     };
 
@@ -107,20 +124,20 @@ export const LoginGiveReviewMain = () => {
         "is_agree_review_guidelines": agree
     }
 
-    const handleReview = async () => {
-        const tp = await data;
-        if (tp) {
-            console.log(tp);
-            setReviewReqBody(tp);
-        }
+    // const handleReview = async () => {
+    //     const tp = await data;
+    //     if (tp) {
+    //         console.log(tp);
+    //         setReviewReqBody(tp);
+    //     }
 
-        setVisible(true)
-    }
+    //     setVisible(true)
+    // }
 
-    const handleGuestAddReview = async () => {
+    // const handleGuestAddReview = async () => {
 
-        setVisible(true)
-    }
+    //     setVisible(true)
+    // }
 
     const handleCount = (c) => {
         if (vis_1 !== true && c === 1) {
@@ -217,17 +234,17 @@ export const LoginGiveReviewMain = () => {
                                                 </div>
                                                 <div class="col-14 col-md-4 order-md-2">
                                                     <div class="star-rating" >
-                                                        <input type="hidden" name="ratingFromForm[]" id="category_99" value="0" data-tracked="true"  required/>
-                                                        <input type="hidden" name="groupCategoryFromForm[]" value="Gastronomie_99" data-tracked="true" required />
-                                                        <input type="radio" id="5-stars_99" name="rating99" value="5" data-tracked="true" required />
+                                                        <input type="hidden" name="ratingFromForm[]" id="category_99" value="0" data-tracked="true"/>
+                                                        <input type="hidden" name="groupCategoryFromForm[]" value="Gastronomie_99" data-tracked="true" />
+                                                        <input type="radio" id="5-stars_99" name="rating99" value="5" data-tracked="true" />
                                                         <label for="5-stars_99" onClick={() => { setValue_1(`At its finest!`); setFirst(5); setVis_1(true); handleCount(1); }} style={first >= 5 ? { color: '#ffc800' } : { color: '#bec1c2' }} className={"icon-star"} title="At its finest!"></label>
-                                                        <input type="radio" id="4-stars_99" name="rating99" value="4" data-tracked="true" required />
+                                                        <input type="radio" id="4-stars_99" name="rating99" value="4" data-tracked="true" />
                                                         <label for="4-stars_99" onClick={() => { setValue_1(`Almost perfect.`); setFirst(4); setVis_1(true); handleCount(1); }} style={first >= 4 ? { color: '#ffc800' } : { color: '#bec1c2' }} class="icon-star" title="Almost perfect."></label>
-                                                        <input type="radio" id="3-stars_99" name="rating99" value="3" data-tracked="true"required />
+                                                        <input type="radio" id="3-stars_99" name="rating99" value="3" data-tracked="true" />
                                                         <label for="3-stars_99" onClick={() => { setValue_1(`It's fine.`); setFirst(3); setVis_1(true); handleCount(1); }} style={first >= 3 ? { color: '#ffc800' } : { color: '#bec1c2' }} class="icon-star" title="It's fine."></label>
-                                                        <input type="radio" id="2-stars_99" name="rating99" value="2" data-tracked="true" required/>
+                                                        <input type="radio" id="2-stars_99" name="rating99" value="2" data-tracked="true"/>
                                                         <label onClick={() => { setValue_1(`It's going ok...`); setFirst(2); setVis_1(true); handleCount(1); }} style={first >= 2 ? { color: '#ffc800' } : { color: '#bec1c2' }} for="2-stars_99" class="icon-star" title="It's going ok..."></label>
-                                                        <input type="radio" id="1-star_99" name="rating99" value="1" data-tracked="true" required/>
+                                                        <input type="radio" id="1-star_99" name="rating99" value="1" data-tracked="true"/>
                                                         <label onClick={() => { setValue_1('Oh Dear!'); setFirst(1); setVis_1(true); handleCount(1); }} style={first >= 1 ? { color: '#ffc800' } : { color: '#bec1c2' }} for="1-star_99" className={"icon-star"} title="Oh Dear!"></label>
                                                     </div>
                                                 </div>
@@ -251,17 +268,17 @@ export const LoginGiveReviewMain = () => {
                                                 </div>
                                                 <div class="col-14 col-md-4 order-md-2">
                                                     <div class="star-rating" onChange={() => { }}>
-                                                        <input type="hidden" name="ratingFromForm[]" id="category_100" value="0" data-tracked="true"  required/>
-                                                        <input type="hidden" name="groupCategoryFromForm[]" value="Gastronomie_100" data-tracked="true" required />
-                                                        <input type="radio" id="5-stars_100" name="rating100" value="5" data-tracked="true" required/>
+                                                        <input type="hidden" name="ratingFromForm[]" id="category_100" value="0" data-tracked="true" />
+                                                        <input type="hidden" name="groupCategoryFromForm[]" value="Gastronomie_100" data-tracked="true"  />
+                                                        <input type="radio" id="5-stars_100" name="rating100" value="5" data-tracked="true" />
                                                         <label for="5-stars_100" class="icon-star" onClick={() => { setValue_2(`At its finest!`); setSecond(5); setVis_2(true); handleCount(2); }} style={second >= 5 ? { color: '#ffc800' } : { color: '#bec1c2' }} title="At its finest!"></label>
-                                                        <input type="radio" id="4-stars_100" name="rating100" value="4" data-tracked="true" required/>
+                                                        <input type="radio" id="4-stars_100" name="rating100" value="4" data-tracked="true" />
                                                         <label for="4-stars_100" class="icon-star" onClick={() => { setValue_2(`Almost perfect.`); setSecond(4); setVis_2(true); handleCount(2); }} style={second >= 4 ? { color: '#ffc800' } : { color: '#bec1c2' }} title="Almost perfect."></label>
-                                                        <input type="radio" id="3-stars_100" name="rating100" value="3" data-tracked="true"required />
+                                                        <input type="radio" id="3-stars_100" name="rating100" value="3" data-tracked="true" />
                                                         <label for="3-stars_100" class="icon-star" onClick={() => { setValue_2(`It's fine.`); setSecond(3); setVis_2(true); handleCount(2); }} style={second >= 3 ? { color: '#ffc800' } : { color: '#bec1c2' }} title="It's fine."></label>
-                                                        <input type="radio" id="2-stars_100" name="rating100" value="2" data-tracked="true" required/>
+                                                        <input type="radio" id="2-stars_100" name="rating100" value="2" data-tracked="true" />
                                                         <label for="2-stars_100" class="icon-star" title="It's going ok..." onClick={() => { setValue_2(`It's going ok...`); setSecond(2); setVis_2(true); handleCount(2); }} style={second >= 2 ? { color: '#ffc800' } : { color: '#bec1c2' }}></label>
-                                                        <input type="radio" id="1-star_100" name="rating100" value="1" data-tracked="true" required/>
+                                                        <input type="radio" id="1-star_100" name="rating100" value="1" data-tracked="true" />
                                                         <label for="1-star_100" class="icon-star" onClick={() => { setValue_2('Oh Dear!'); setSecond(1); setVis_2(true); handleCount(2); }} title="Oh Dear!" style={second >= 1 ? { color: '#ffc800' } : { color: '#bec1c2' }}></label>
                                                     </div>
                                                 </div>
@@ -397,49 +414,83 @@ export const LoginGiveReviewMain = () => {
                                 </section>
                             </div>
                             <div className="reviewStep customBgrdColor customTxtColor"></div>
-                        <section className="ratingDetail">
-                        <h2>How was your experience?</h2>
-                        <div className="content with py">
-                            <div className="row reviewInput">
-                            <label className="forText" htmlFor="review-title" style={title === '' ? { display: 'none' } : {}}>
-                                Title of the review *
-                            </label>
-                            <div className="validate-pos"></div>
-                            <input
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                className="form-control"
-                                placeholder="The most important facts in a nutshell (at least 5 characters)"
-                                name="title"
-                                id="review-title"
-                                type="text"
-                                data-minlength="5"
-                                maxLength="100"
-                                required
-                            />
-                            {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}
+                            <section className="ratingDetail">
+            <h2>How was your experience?</h2>
+            <div className="content with py">
+                <div className="row reviewInput">
+                    <label className="forText" htmlFor="review-title" style={title === '' ? { display: 'none' } : {}}>
+                        Title of the review *
+                    </label>
+                    <div className="validate-pos"></div>
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="form-control"
+                        placeholder="The most important facts in a nutshell (at least 5 characters)"
+                        name="title"
+                        id="review-title"
+                        type="text"
+                        data-minlength="5"
+                        maxLength="100"
+                        required
+                    />
+                    {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}
+                </div>
+                <div className="row reviewInput">
+                    <label className="forText" htmlFor="review-text" style={rating === '' ? { display: 'none' } : {}}>
+                        Your rating *
+                    </label>
+                    <div className="validate-pos"></div>
+                    <textarea
+                        className="form-control"
+                        value={rating}
+                        onChange={(e) => setRating(e.target.value)}
+                        placeholder="Please describe your experience with the company (at least 10 characters)"
+                        name="text"
+                        id="review-text"
+                        data-minlength="10"
+                        maxLength="4000"
+                        required
+                    />
+                    {errors.rating && <span style={{ color: 'red' }}>{errors.rating}</span>}
+                </div>
+            </div>
+            <div className="reviewStep customBgrdColor customTxtColor">
+                <section className="ratingSubmit">
+                    <h2>Submit Review</h2>
+                    <div className="content with py">
+                        <div>
+                            <div className="checkbox">
+                                <label className="checkboxContainer">
+                                    <span>Yes, I have read and agree to the review guidelines</span>
+                                    <input 
+                                        name="accepted" 
+                                        checked={agree} 
+                                        onChange={(e) => setAgree(e.target.checked)} 
+                                        id="accepted" 
+                                        type="checkbox" 
+                                        data-tracked="true" 
+                                        required 
+                                    />
+                                    <span className="checkmark"></span>
+                                </label>
                             </div>
-                            <div className="row reviewInput">
-                            <label className="forText" htmlFor="review-text" style={rating === '' ? { display: 'none' } : {}}>
-                                Your rating *
-                            </label>
+                            {errors.agree && <span style={{ color: 'red' }}>{errors.agree}</span>}
                             <div className="validate-pos"></div>
-                            <textarea
-                                className="form-control"
-                                value={rating}
-                                onChange={(e) => setRating(e.target.value)}
-                                placeholder="Please describe your experience with the company (at least 10 characters)"
-                                name="text"
-                                id="review-text"
-                                data-minlength="10"
-                                maxLength="4000"
-                                required
-                            />
-                            {errors.rating && <span style={{ color: 'red' }}>{errors.rating}</span>}
+                            <div>
+                                <div className="row d-md-flex justify-content-center submitButtons">
+                                    <div>
+                                        <button className="btn-hbd yellow" type="button" onClick={handleSubmit}>Give Review</button>
+                                    </div>
+                                </div>
+                                <p className="status"></p>
                             </div>
                         </div>
-                        </section>
-                            <div class="reviewStep customBgrdColor customTxtColor">
+                    </div>
+                </section>
+            </div>
+        </section>
+                            {/* <div class="reviewStep customBgrdColor customTxtColor">
                                 <section class="ratingSubmit">
                                     <h2 _msttexthash="205725" _msthash="86">Submit Review</h2>
                                     <div class="content with py">
@@ -447,13 +498,14 @@ export const LoginGiveReviewMain = () => {
                                             <div class="checkbox">
                                                 <label class="checkboxContainer">
                                                     <span _msttexthash="1615887" _msthash="87">Yes, I have read and agree to the <a target="_blank" rel="noopener" title={specificCompanyInfo?.company_name} _istranslated="1">review guidelines</a>. </span>
-                                                    <input name="agbaccepted" value={agree} onChange={(e) => { setAgree(e.target.value) }} id="agbaccepted" type="checkbox" data-tracked="true" required />
+                                                    <input name="accepted" value={agree} onChange={(e) => { setAgree(e.target.value) }} id="accepted" type="checkbox" data-tracked="true" required />
                                                     <span class="checkmark"></span>
                                                 </label>
                                             </div>
                                             <div class="validate-pos"></div>
                                             <div>
                                                 <div class="row d-md-flex justify-content-center submitButtons">
+                                                {console.log("aijaj", data)}
                                                     <div>
                                                         <button class="btn-hbd yellow" type="submit" onClick={() => { sendDataToIframe(data); setVisible(false) }} _msttexthash="184015" _msthash="91">Give Review</button>
                                                     </div>
@@ -463,7 +515,7 @@ export const LoginGiveReviewMain = () => {
                                         </div>
                                     </div>
                                 </section>
-                            </div>
+                            </div> */}
                         </div>
                     </section>
                 </div>

@@ -78,12 +78,11 @@ export default function MyMap() {
   let companyInfo;
   if (name){
     companyInfo=JSON.parse(name)
-    console.log("aijaj", companyInfo)
+    // console.log("aijaj", companyInfo)
   }
 
 
   const add = [Math.abs(companyInfo?.latitude), Math.abs(companyInfo?.longitude)];
-  console.log(add);
   return (
     <Map height={350} defaultCenter={add} defaultZoom={5}>
       <Marker width={50} anchor={add} />

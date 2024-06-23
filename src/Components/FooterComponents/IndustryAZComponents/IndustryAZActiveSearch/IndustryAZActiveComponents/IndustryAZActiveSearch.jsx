@@ -99,7 +99,7 @@ export const IndustryAZActiveSearch = () => {
     const { alpha } = useParams();
     const Alphabets = [
         "A", "B", "C", "Č", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-        "N", "O", "P", "Q", "R", "S", "Š", "T", "U", "V", "Z", "Ž"
+        "N", "O", "P", "Q", "R", "S", "Š", "T", "U", "V", "X", "Z", "Ž"
     ];
     return (
         <>

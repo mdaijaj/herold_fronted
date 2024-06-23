@@ -119,7 +119,7 @@ export const CompanyAZMain = () => {
     const { alpha } = useParams();
     const Alphabets = [
         "A", "B", "C", "Č", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-        "N", "O", "P", "Q", "R", "S", "Š", "T", "U", "V", "Z", "Ž"
+        "N", "O", "P", "Q", "R", "S", "Š", "T", "U", "V", "X", "Z", "Ž"
     ];
 
 
@@ -437,14 +437,14 @@ export const CompanyAZMain = () => {
 
                     {/* Pagination */}
                     <div className="pagination">
-                        <button
+                        <button style={{margin: "15px"}}
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                         >
                             Previous
                         </button>
                         <span>{currentPage}</span>
-                        <button
+                        <button style={{margin: "15px"}}
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                         >
